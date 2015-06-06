@@ -18,6 +18,8 @@ public class TabFragment extends Fragment {
 	private String mTitle = "Default";	
 	public static final String TITLE = "title"; 
 	
+	// 一旦Fragment已经被创建，要创建它自己的用户界面时调用该方法。
+	// 一般Fragment的UI初始化放在这个函数里。
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -26,6 +28,7 @@ public class TabFragment extends Fragment {
 			this.mTitle = this.getArguments().getString(TITLE);			
 		}
 		
+		// 选项卡Fragment里，现在暂时只有一个TextView
 		TextView tv = new TextView(this.getActivity());
 		tv.setTextSize(20);
 		tv.setBackgroundColor(Color.parseColor("#ffffffff"));

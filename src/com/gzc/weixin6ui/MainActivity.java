@@ -11,7 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 
 /**
- * 
+ * 要通过Android支持包来使用Fragment，必须保证Activity是继承自FragmentActivity类。
  * @author gzc
  *
  */
@@ -32,11 +32,14 @@ public class MainActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);	
 		this.setContentView(R.layout.activity_main);
 		
+		getActionBar().setDisplayShowHomeEnabled(false);
+		
 		initView();
 		this.initDatas();
 		mViewPager.setAdapter(mAdapter);
 	}
 	
+	// 菜单
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		this.getMenuInflater().inflate(R.menu.main, menu);
@@ -59,6 +62,7 @@ public class MainActivity extends FragmentActivity {
 			this.mTabs.add(tabFragment);
 		}
 		
+		// 设置Fragment的设配器
 		mAdapter = new FragmentPagerAdapter(this.getSupportFragmentManager()){
 			@Override
 			public int getCount(){
