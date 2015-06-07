@@ -4,6 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
+    <!-- 
+   	1。 xmlns:gzc="http://schemas.android.com/apk/res/com.gzc.weixin6ui"
+    是自定义的一个命名空间，可以随便取一个喜欢的名称。
+    2。 "http://schemas.android.com/apk/res/com.apkbus.myview"这部分的
+    字符串是由”http://schemas.android.com/apk/res/”和应用
+    的包名”com.apkbus.myview”组成。
+    
+    关于安卓Android自定义VIEW的一篇不错的文章：
+    Android自定义控件View的探讨
+    http://www.apkbus.com/forum.php?mod=viewthread&tid=242501&extra=page%3D1
+     -->
 
     <android.support.v4.view.ViewPager
         android:id="@+id/id_viewpager"
