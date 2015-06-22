@@ -10,6 +10,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Looper;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
@@ -40,7 +41,7 @@ public class ChangeColorIconWithText extends View {
 	private Bitmap mBitmap;
 	private Paint mPaint;
 
-	private float mAlpha = 1F;
+	private float mAlpha = 0F;
 
 	private Rect mIconRect;
 	private Rect mTextBound;
@@ -52,6 +53,9 @@ public class ChangeColorIconWithText extends View {
 		this(context, null);
 	}
 
+	// 定义的控件如果要在xml中定义就要添加带参数的构造函数，并且要调用父类的构造函数
+	// 自定义View增加属性的两种方法，第2种方法通过XML为View注册属性。与Android提供的标准属性写法一样
+	
 	public ChangeColorIconWithText(Context context, AttributeSet attrs) {
 		this(context, attrs, 0);
 	}
@@ -93,7 +97,7 @@ public class ChangeColorIconWithText extends View {
 				break;
 			}
 		}
-		
+		// 回收资源
 		a.recycle();
 		
 		mTextBound = new Rect();
@@ -119,7 +123,7 @@ public class ChangeColorIconWithText extends View {
 		mIconRect = new Rect(left, top, left + iconWidth, top + iconWidth);
 	}
 	
-	// 当组件将要绘制它的内容时，可以理解成U3D的OnGUI
+	// 当组件将要绘制它的内容时回调，可以理解成U3D的OnGUI
 	@Override
 	protected void onDraw(Canvas canvas) {		
 		canvas.drawBitmap(mIconBitmap, null, this.mIconRect, null);
@@ -174,6 +178,22 @@ public class ChangeColorIconWithText extends View {
 		int x = getMeasuredWidth() / 2 - mTextBound.width() / 2;
 		int y = mIconRect.bottom + mTextBound.height();
 		canvas.drawText(mText, x, y, mTextPaint);
+	}
+	
+	/** 设置图标的Alpha */
+	public void setIconAlpha(float alpha){
+		this.mAlpha = alpha;
+		invalidateView();
+	}
+	
+	/** 重绘视图 */
+	private void  invalidateView(){
+		// 判断是否为UI线程（主线程）调用的该函数
+		if(Looper.getMainLooper() == Looper.myLooper()){
+			this.invalidate();
+		}else{
+			this.postInvalidate();
+		}
 	}
 	
 }
