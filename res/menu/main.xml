@@ -1,4 +1,5 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android" 
+    >
     
     <item
         android:id="@+id/action_search"
@@ -7,7 +8,6 @@
         android:actionViewClass="android.widget.SearchView"
         android:showAsAction="ifRoom|collapseActionView"
         />
-    
      <item
         android:id="@+id/action_group_chat"
         android:icon="@drawable/menu_group_chat_icon"
