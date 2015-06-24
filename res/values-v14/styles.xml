@@ -3,14 +3,22 @@
     <!--
         Base application theme for API 14+. This theme completely replaces
         AppBaseTheme from BOTH res/values/styles.xml and
-        res/values-v11/styles.xml on API 14+ devices.
+        res/values-v11/styles.xml on API 14+ devices.
     -->
+    <!-- style的名字是Theme.AndroidDevelopers，父类为Theme.Holo.Light，
+        即白底黑字（如果是Theme.Holo，则为黑底白字）-->
     <style name="AppBaseTheme" parent="android:Theme.Holo.Light.DarkActionBar">
-
-        <!-- API 14 theme customizations can go here. -->
+        <!-- API 14 theme customizations can go here. -->        
         <item name="android:actionOverflowButtonStyle">@style/weixinActionOverflowButtonStyle</item>
     </style>
 
+    <!-- 
+    把style设置好后，只需在AndroidManifest.xml中application
+    或activity的位置加上
+    <activity android:name=".MainActivity"  
+    android:theme="@style/Theme.AndroidDevelopers">即可，
+    作用于一个应用程序或者一个activity。
+     -->
     <style name="weixinActionOverflowButtonStyle">
         <item name="android:src">@drawable/actionbar_add_icon</item>
     </style>

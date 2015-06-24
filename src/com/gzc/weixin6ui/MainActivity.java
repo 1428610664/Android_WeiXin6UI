@@ -1,6 +1,7 @@
 package com.gzc.weixin6ui;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,10 +11,12 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewConfiguration;
+import android.view.Window;
 
 /**
  * 要通过Android支持包来使用Fragment，必须保证Activity是继承自FragmentActivity类。
@@ -51,6 +54,24 @@ public class MainActivity extends FragmentActivity implements OnClickListener,
 		this.getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
+	
+	/**
+	 * 在菜单打开时回调，设置menu显示icon
+	 */
+	@Override
+	public boolean onMenuOpened(int featureId, Menu menu){
+		if (featureId == Window.FEATURE_ACTION_BAR && null != menu){
+			try {
+				Method m = menu.getClass().getDeclaredMethod("setOptionalIconsVisible", Boolean.TYPE);
+				m.setAccessible(true);
+				m.invoke(menu, true);
+			} catch (Exception e) {				
+				e.printStackTrace();
+			}
+		}		
+		
+		return super.onMenuOpened(featureId, menu);
+	}
 
 	// ==========================
 	
@@ -72,8 +93,13 @@ m.invoke(menu, true);//m是个方法，这行意思就是调用menu（MenuBuilder对象）的setOp
 		try {
 			Field menuKey = ViewConfiguration.class
 					.getDeclaredField("sHasPermanentMenuKey");
-			menuKey.setAccessible(true);
-			menuKey.setBoolean(config, false);
+			if(null != menuKey){
+				menuKey.setAccessible(true);
+				menuKey.setBoolean(config, false);
+			}else{
+				Log.e("MainActivity->setOverflowButtonAlways( )", "menuKey is null !!");
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
