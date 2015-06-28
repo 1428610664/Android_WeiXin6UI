@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
+import android.graphics.Xfermode;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Looper;
 import android.util.AttributeSet;
@@ -47,6 +48,8 @@ public class ChangeColorIconWithText extends View {
 	private Rect mTextBound;
 	private Paint mTextPaint;
 	
+	/** 设置画笔的痕迹是透明的，从而可以看到背景图片 */
+	Xfermode mXfermode = new PorterDuffXfermode(PorterDuff.Mode.DST_IN);
 
 	// ==============构造函数==============
 	public ChangeColorIconWithText(Context context) {
@@ -91,7 +94,9 @@ public class ChangeColorIconWithText extends View {
 				this.mText = a.getString(attr);
 				break;
 			case R.styleable.ChangeColorIconWithText_text_size:
-				this.mColor = (int)a.getDimension(attr, DEF_TEXT_SIZE_VALUE);
+				mTextSize = (int) a.getDimension(attr, TypedValue
+						.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12,
+								getResources().getDisplayMetrics()));
 				break;
 			default:
 				break;
@@ -104,7 +109,8 @@ public class ChangeColorIconWithText extends View {
 		mTextPaint = new Paint();
 		mTextPaint.setTextSize(mTextSize);
 		mTextPaint.setColor(0Xff555555);		// 灰色
-		mTextPaint.getTextBounds(mText, 0, mText.length(), mTextBound);
+		mTextPaint.getTextBounds(mText, 0, mText.length(), mTextBound);	
+	
 	}
 	// ==============构造函数==============
 	
@@ -142,10 +148,13 @@ public class ChangeColorIconWithText extends View {
 		canvas.drawBitmap(mBitmap, 0, 0, null);
 	}
 	
+	
+	
 	/** 在内存中绘制可变色的icon */
 	private void setupTargetBitmap(int alpha){
 		this.mBitmap = Bitmap.createBitmap(this.getMeasuredWidth(), this.getMeasuredHeight(),Config.ARGB_8888);
 		this.mCanvas = new Canvas(mBitmap);		
+		
 		mPaint = new Paint();
 		mPaint.setColor(mColor);
 		mPaint.setAntiAlias(true);
@@ -153,8 +162,8 @@ public class ChangeColorIconWithText extends View {
 		mPaint.setAlpha(alpha);
 		
 		this.mCanvas.drawRect(mIconRect, mPaint);
-		
-		this.mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));		
+		// 设置画笔的痕迹是透明的，从而可以看到背景图片
+		this.mPaint.setXfermode(mXfermode);		
 		this.mPaint.setAlpha(255);
 		
 		this.mCanvas.drawBitmap(mIconBitmap, null, this.mIconRect,this.mPaint);
@@ -162,7 +171,7 @@ public class ChangeColorIconWithText extends View {
 
 	/** 绘制原文本  */
 	private void drawSourceText(Canvas canvas, int alpha){
-		mTextPaint.setColor(0xff333333);
+		mTextPaint.setColor(0xEE0000);//	0xff333333
 		mTextPaint.setAlpha(255 - alpha);
 		int x = getMeasuredWidth() / 2 - mTextBound.width() / 2;
 		int y = mIconRect.bottom + mTextBound.height();
