@@ -62,6 +62,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener,
 	public boolean onMenuOpened(int featureId, Menu menu){
 		if (featureId == Window.FEATURE_ACTION_BAR && null != menu){
 			try {
+				// 使用反射执行setOptionalIconsVisible函数，让菜单项显示图标出来。
 				Method m = menu.getClass().getDeclaredMethod("setOptionalIconsVisible", Boolean.TYPE);
 				m.setAccessible(true);
 				m.invoke(menu, true);
@@ -81,7 +82,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener,
 强制显示出overflowButton（部分有实体menu按键的无法显示）；
 第二个是为了设置menuItem可以显示出icon。
 
-关于一下三行代码：
+关于以下三行代码：
 menuKey.setAccessible(true);//menuKey这是一个属性，这行代码是强制设置可以访问，否则私有属性无法调用
 menuKey.setBoolean(config, false);//就是为config（ViewConfiguration对象）的menuKey属性赋值。
 m.invoke(menu, true);//m是个方法，这行意思就是调用menu（MenuBuilder对象）的setOptionalIconsVisible这个方法，传入的参数为true.
